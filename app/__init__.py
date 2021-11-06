@@ -2,12 +2,14 @@ from urllib import request
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from config import config_options
+from .. import views
+from .. import errors
 
 bootstrap = Bootstrap()
 def create_app(Config_name):
-    app = Flask(__name__)
+    app = Flask(__name__,instance_relative_config = True)
 
-
+#check on this line 11 
     app.config.from_object(config_options[Config_name])
     
     bootstrap.init_app(app)

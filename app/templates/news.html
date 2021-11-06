@@ -1,0 +1,16 @@
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 posterpath" style="background: url({{news.poster}})no-repeat center center">
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 news-details">
+            <h3>{{news.title}}</h3>
+                <p class="overvew">{{news.overview}}</p>
+                <pclass="ratings"><b>{{news.vote_average}}</b>-<i>{{news.vote_count}}votes</i></p>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

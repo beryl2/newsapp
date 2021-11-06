@@ -1,0 +1,14 @@
+{% extends 'bootstrap/base.html' %}
+{% block navbar %}
+{%include 'navbar.html' %}
+{% endlock %}
+{%if title %}
+<title>{{title}}</title>
+{% else %}
+<title></title>
+{% endif %}
+<body>
+    {% block content %}
+
+    {% endblock %}
+</body>

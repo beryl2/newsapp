@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macro %}
+{% block content %}
+<div class="contaner">
+    <div class="row">
+        <h3>found{{news|count}}matches</h3>
+        <hr>
+        <ul>
+            {{macro.displayNewsList(news)}}
+        </ul>
+    </div>
+</div>  
+{% endblock %}  

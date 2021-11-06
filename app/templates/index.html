@@ -1,1 +1,42 @@
-<h1>hello world</h1>
+{% extends 'base.html' %}
+{% import macros.html as macro %}
+<!---style block----->
+{% block styles %}
+
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+{% endblock %}
+<h1>{{mesage}}</h1>
+{%if title%}
+<title>{{title}}</title>
+{% else %}
+<title>news</title>
+{% endif %}
+
+    {% block content %}
+    <div class="container">
+        <form>
+            <input type="text" name="news_query" placeholder="Search for a news" class="form-control">
+            <input type="submit"  value="Submit" class="btn btn-default">
+        </form>
+    
+    </div>
+
+    <h3>business_news</h3>
+    <ul>
+        {{macro.displayNewsList(business)}}
+    </ul>
+    <h3>sports_news</h3>
+    <ul>
+        {{macro.displayNewsList(sports)}}
+    </ul>
+    <h3>entertainment_news</h3>
+    <ul>
+        {{macro.displayNewsList(entertainment)}}
+    </ul>
+    <h3>health_news</h3>
+    <ul>
+        {{macro.displayNewsList(health)}}
+    </ul>
+    {% endblock %}
+   
