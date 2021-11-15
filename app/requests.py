@@ -1,8 +1,8 @@
 import urllib.request,json
 from .models import News
 
-api_key = None #app.config['NEWS_API_KEY]
-base_url = None # app.config['BASE_URL]
+api_key = None #app.config['NEWS_API_KEY']
+base_url = None # app.config['BASE_URL']
 
 def configure_request(app):
     global api_key,base_url,base_url
@@ -82,7 +82,12 @@ def search_news(news_name):
             search_news_list = search_news_response['results']
             search_news_results = process_results(search_news_list)
 
-    return search_news_results              
+    return search_news_results   
+
+
+
+
+               
 
 
 
