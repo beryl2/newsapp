@@ -1,94 +1,84 @@
 import urllib.request,json
-from .models import News
+from .models import News, Headlines
 
 api_key = None #app.config['NEWS_API_KEY']
 base_url = None # app.config['BASE_URL']
+base_url_headlines = None
 
 def configure_request(app):
-    global api_key,base_url,base_url
-    api_key= app.config['NEWS_API_KEY']
-    base_url=app.config['NEWS_API_BASE_URL'] 
-    
-
-def get_sources():
-    source_url = 'https://newsapi.org/v2/top-headlines/sources?category={}&apiKey={}'
-    source_url = base_url.format(category, api_key)
-    with urllib.request.urlopen(source_url) as url:
-        source_data = url.read()
-        source_response = json.load(source_data)
-        return (source_response)
+    global api_key,base_url,base_url,base_url_headlines
+    api_key = app.config['NEWS_API_KEY']
+    base_url = app.config['NEWS_API_BASE_URL'] 
+    base_url_headlines = app.config['NEWS_BASE_URL_HEADLINES']
 
 def get_news(category):
-    get_news_url= base_url.format(category,api_key)
+    get_news_url= base_url.format(api_key, category)
 
     with urllib.request.urlopen(get_news_url) as url:
         get_news_data = url.read()
         get_news_response = json.loads(get_news_data)
 
-        news_results = None
+        news_sources = None
 
-        if get_news_response['results']: 
-            news_results_list = get_news_response['results']
-            news_results = process_results(news_results_list)
-
-    return news_results   
+        if get_news_response['sources']: 
+            news_source_list = get_news_response['sources']
+            news_sources = process_results(news_source_list)
+   
+    return news_sources  
 
 
 def process_results(news_list):
     news_results = []
     for news_item in news_list:
         id = news_item.get('id')
-        title = news_item.get('original_title')
-        overview = news_item.get('original_overview')
-        poster = news_item.get('poster_path')
-        vote_average = news_item.get('vote_average')
-        vote_count = news_item.get('vote_count')
+        name = news_item.get('name')
+        description = news_item.get('description')
+        category = news_item.get('category')
 
-        if poster:
-            news_object = News(id,title,overview,poster,vote_average,vote_count)
-            news_results.append(news_object)
+        single_source = News(id,name,description,category)
+        news_results.append(single_source)
+           
     return news_results
 
-def get_news(id):
-    get_news_details_url = base_url.format(id, api_key)
+def get_headlines(id):
+    get_news_url= base_url_headlines.format(id, api_key)
 
-    with urllib.request.urlopen(get_news_details_url) as url:
-        news_details_data = url.read()
-        news_details_response = json.loads(news_details_data)
+    with urllib.request.urlopen(get_news_url) as url:
+        get_news_data = url.read()
+        get_news_response = json.loads(get_news_data)
 
-        news_object = None
-        if news_details_response:
-            id = news_details_response.get('id')
-            title = news_details_response.get('original_title')
-            overview = news_details_response.get('overview')
-            poster = news_details_response.get('poster_path')
-            vote_average = news_details_response.get('vote_average')
-            vote_count = news_details_response.get('vote_count')
+        news_sources = None
 
-            news_object = News(id, title,overview, poster,vote_average,vote_count)
+        if get_news_response['articles']: 
+            news_source_list = get_news_response['articles']
+            news_sources = process_headlines(news_source_list)
+   
+        return news_sources 
 
-        return news_object  
+def process_headlines(article_list):
+    news_results = []
+    for article_item in article_list:
+        title = article_item.get('title')
+        urlToImage = article_item.get('urlToImage')
+        url = article_item.get('url')
+        description = article_item.get('description')
+        publishedAt = article_item.get('publishedAt')
 
-def search_news(news_name):
-    search_news_url = 'https://newsapi.org/v2/top-headlines/sources?category={}&apiKey={}'.format(api_key, news_name)
+        single_article = Headlines(title,urlToImage,url,description,publishedAt)
+        news_results.append(single_article)
+           
+    return news_results
 
-    with urllib.request.urlopen(search_news_url) as url:
-        search_news_data = url.read()
-        search_news_response = json.loads(search_news_data)
 
-        search_news_results = None
 
-        if search_news_response['results']:
-            search_news_list = search_news_response['results']
-            search_news_results = process_results(search_news_list)
 
-    return search_news_results   
+
+
 
 
 
 
                
-
 
 
 

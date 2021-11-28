@@ -1,14 +1,29 @@
-{% import 'macros.html' as macro %}
 
-{% maro displayNewsList(news_list) %}
+
+{% macro displayNewsList(news_list) %}
 
 {% for news in news_list %}
 <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 news-card">
-    <img src ="{{news.poster}}" alt= "{{news.title}} poster" class="img-responsive">
-    <li class="text-center">
-        <a href='/news{{news.id}}'>
-        {{news.title|truncate(10)}}</a>
-    </li>
+    <p>{{news.name}}</p>
+        <a href='/headlines/{{news.id}}'>
+            
+        view headlines</a>
+    
 </div>
 {% endfor %}
 {% endmacro %}
+
+
+{% macro displayarticles(headlines) %}
+{% for articles in headlines %}
+<div class=' col-md-4 headlines-card'>
+    <h2>{{articles.title}}</h2>
+    <a href="{{articles.url}}">url</a>
+    <img src="{{articles.urlToImage }}" class="img-fluid w-25px">
+    <p>{{articles.description}}</p>
+    <p>{{articles.publisedAt}}</p>
+    
+</div>
+{% endfor %}
+{% endmacro %}
+

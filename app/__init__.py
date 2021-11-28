@@ -1,9 +1,8 @@
-from urllib import request
+
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from config import config_options
-from .. import views
-from .. import errors
+
 
 bootstrap = Bootstrap()
 def create_app(Config_name):
